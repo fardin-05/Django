@@ -10,11 +10,11 @@ from django.db.models import Count
 
 #Product Part
 class ViewProduct(APIView):
-    def get(self, request):
+    def get(self, request): #get
         products = Product.objects.select_related('category').all()
         serializer = ProductSerializer(products, many = True, )
         return Response(serializer.data)
-    def post(self, request):
+    def post(self, request):#post
         serializer = ProductSerializer(data = request.data)
         serializer.is_valid(raise_exception = True)
         print(serializer.validated_data)
@@ -26,13 +26,13 @@ class ViewSpecificProduct(APIView):
         product = get_object_or_404(Product , pk = id)
         serializer = ProductSerializer( product )
         return Response(serializer.data)
-    def put(self, request, id):
+    def put(self, request, id):#put/update
         product = get_object_or_404(Product , pk = id)
         serializer = ProductSerializer(product , data = request.data)
         serializer.is_valid(raise_exception = True)
         serializer.save()
         return Response(serializer.data)
-    def delete(self, request, id):
+    def delete(self, request, id):#delete
         product = get_object_or_404(Product, pk = id)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -66,3 +66,4 @@ class ViewSpecificCategory(APIView):
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
